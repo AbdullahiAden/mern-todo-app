@@ -29,10 +29,36 @@ mongoose
 // get all
 router.get("/api/todoApp", async function (req, res, next) {
   await Todos.find({}, (err, allTodos) => {
-    console.log(allTodos);
     res.send({ allTodos });
+    // res.render("index", { allTodos });
   });
 });
+
+// // serves form
+// router.get("/api/todoApp/new", function (req, res, next) {
+//   res.render("new");
+// });
+
+// add new
+router.post("/api/todoApp/new", async (req, res) => {
+  console.log(req.body.title);
+
+  const newTodo = Todos(req.body);
+  await newTodo.save();
+  if (newTodo) {
+    res.send({ newTodo });
+  }
+
+  // try {
+  //   res.send({ newTodo });
+  //   res.status(201).json(newTodo);
+
+  //   // res.send({ newTodo });
+  // } catch (err) {
+  //   res.status(409).json({ err: err });
+  // }
+});
+
 // get single
 router.get("/api/todoApp/:id", async function (req, res, next) {
   const { id } = req.params;
@@ -42,20 +68,6 @@ router.get("/api/todoApp/:id", async function (req, res, next) {
   });
 });
 
-// add new
-router.post("api/todoApp/new", (req, res) => {
-  const { todo } = req.body;
-  console.log(todo);
-
-  const newTodo = todosdb({
-    title: req.todo,
-  });
-
-  if (newTodo) {
-    newTodo.save();
-    res.send("saved");
-  }
-  res.send("------");
-});
+// update
 
 module.exports = router;
