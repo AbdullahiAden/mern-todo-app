@@ -18,14 +18,6 @@ mongoose
     console.log(error);
   });
 
-// const tods = [
-//   {
-//     subject: "shopping",
-//     content: "buy shoes and trousers",
-//     date: "",
-//   },
-// ];
-
 // get all
 router.get("/api/todoApp", async function (req, res, next) {
   await Todos.find({}, (err, allTodos) => {
@@ -36,12 +28,13 @@ router.get("/api/todoApp", async function (req, res, next) {
 
 // // serves form
 // router.get("/api/todoApp/new", function (req, res, next) {
-//   res.render("new");
+//   // res.render("new");
+//   console.log(req.body);
 // });
 
 // add new
 router.post("/api/todoApp/new", async (req, res) => {
-  console.log(req.body.title);
+  console.log(req.body);
 
   const newTodo = Todos(req.body);
   await newTodo.save();
