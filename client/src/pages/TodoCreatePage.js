@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router";
 
 const TodoCreatePage = () => {
   const [newTodo, setNewTodo] = useState({ title: "", content: "" });
@@ -19,7 +20,8 @@ const TodoCreatePage = () => {
         setNewTodo(data);
 
         console.log(data);
-        window.location.reload();
+        <Redirect to="/todoApp" />;
+        // window.location.reload();
       });
   };
   return (

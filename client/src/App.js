@@ -12,9 +12,9 @@ function App() {
     <div className="container">
       {/* --- Routes */}
       <Switch>
-        <Route path="/todoApp/new">
+        {/* <Route path="/todoApp/new">
           <TodoCreatePage />
-        </Route>
+        </Route> */}
         <Route path="/todoApp/:id" component={TodoDetailsPage}></Route>
 
         <Route path="/todoApp">

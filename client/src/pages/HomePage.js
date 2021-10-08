@@ -148,14 +148,13 @@ const HomePage = () => {
         {allTodos.map((todo, index) => {
           return (
             <div
-              className="shadow border border-primary "
+              className="shadow border-bottom border-primary m-2"
               onClick={() => {
                 fetchSingleTodo(allTodos[index]._id);
               }}
             >
-              <div>{todo.title}</div>
+              <strong>{todo.title}</strong>
               <div>{todo._id}</div>
-              <p>{todo.content}</p>
 
               <Link to={`/todoApp/${todo._id}`}>View more </Link>
             </div>
