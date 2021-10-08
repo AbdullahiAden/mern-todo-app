@@ -13,11 +13,11 @@ function App() {
       {/* --- Routes */}
       <Switch>
         <Route path="/todoApp/new">
-          <TodoDetailsPage />
+          <TodoCreatePage />
         </Route>
         <Route path="/todoApp/:id" component={TodoDetailsPage}></Route>
 
-        <Route path="/">
+        <Route path="/todoApp">
           <HomePage />
         </Route>
       </Switch>
