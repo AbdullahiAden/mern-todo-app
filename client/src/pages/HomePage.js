@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 
 import { Link } from "react-router-dom";
-import TodoCreatePage from "./TodoCreatePage";
 
 const HomePage = () => {
   const [allTodos, setAllTodos] = useState([]);
   const [singleTodo, setSingleTodo] = useState([]);
   const [newTodo, setNewTodo] = useState({ title: "", content: "" });
 
+  //   adding new todo
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const api = "http://localhost:5000/api/todoApp/new";
@@ -24,8 +24,6 @@ const HomePage = () => {
       .then((data) => {
         setNewTodo(data);
 
-        console.log(data);
-        // <Redirect to="/todoApp" />;
         window.location.reload();
       });
   };
@@ -36,17 +34,13 @@ const HomePage = () => {
     const res = await fetch(api);
     const data = await res.json();
     setAllTodos(data.allTodos);
-    // console.log(allTodos);
   }
   async function fetchSingleTodo(id) {
-    // const { id } = props.match.params;
     const api = ` http://localhost:5000/api/todoApp/${id}`;
-    // console.log(api);
 
     const res = await fetch(api);
     const data = await res.json();
     setSingleTodo(data.singleTodo[0]);
-    console.log(singleTodo);
   }
   useEffect(() => {
     fetchAllTodos();
@@ -55,10 +49,6 @@ const HomePage = () => {
   return (
     <div>
       <h1>Todo App</h1>
-
-      {/* <Link to={"/todoApp/new"}>
-        <button className="btn btn-primary btn-sm mb-2 ">Add New Todo</button>
-      </Link> */}
 
       <div>
         <button
@@ -145,21 +135,30 @@ const HomePage = () => {
       </div>
 
       <div className="row">
-        {allTodos.map((todo, index) => {
-          return (
-            <div
-              className="shadow border-bottom border-primary m-2"
-              onClick={() => {
-                fetchSingleTodo(allTodos[index]._id);
-              }}
-            >
-              <strong>{todo.title}</strong>
-              <div>{todo._id}</div>
+        {allTodos.length < 0 ? (
+          <div>
+            <p>LOADING</p>
+          </div>
+        ) : (
+          <div>
+            {allTodos.map((todo, index) => {
+              return (
+                <div
+                  key={index}
+                  className="shadow border-bottom border-primary m-2"
+                  onClick={() => {
+                    fetchSingleTodo(allTodos[index]._id);
+                  }}
+                >
+                  <strong>{todo.title}</strong>
+                  <div>{todo._id}</div>
 
-              <Link to={`/todoApp/${todo._id}`}>View more </Link>
-            </div>
-          );
-        })}
+                  <Link to={`/todoApp/${todo._id}`}>View more </Link>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

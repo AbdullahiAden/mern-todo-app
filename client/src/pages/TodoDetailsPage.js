@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 const TodoDetailsPage = (props) => {
   const { id } = props.match.params;
-  //   console.log(id);
   const api = ` http://localhost:5000/api/todoApp/${id}`;
 
   const [singleTodo, setSingleTodo] = useState([]);
@@ -11,10 +10,8 @@ const TodoDetailsPage = (props) => {
   async function fetchSingleTodo() {
     const res = await fetch(api);
     const data = await res.json();
-    console.log(data.singleTodo);
 
     setSingleTodo(data.singleTodo);
-    // console.log(singleTodo);
   }
 
   useEffect(() => {
@@ -22,19 +19,28 @@ const TodoDetailsPage = (props) => {
   }, []);
   return (
     <div className="conatiner shadow m-3">
-      {singleTodo.map((todo) => {
-        return (
-          <div className=" shadow ">
-            <h1>
-              Title:{" "}
-              <span className="border-3 border-primary border-bottom">
-                {todo.title}
-              </span>{" "}
-            </h1>
-            <h1>Content: {todo.content}</h1>
-          </div>
-        );
-      })}
+      {singleTodo.length < 0 ? (
+        <h1>Loading</h1>
+      ) : (
+        <div>
+          {singleTodo.map((todo, index) => {
+            return (
+              <div key={index} className=" shadow ">
+                <h1>
+                  Title:{" "}
+                  <span className="border-3 border-primary border-bottom">
+                    {todo.title}
+                  </span>{" "}
+                </h1>
+                <h1>Content: {todo.content}</h1>
+                {/*  ONLY DATE ----------------------------- */}
+                <p>Last Edit: {todo.updatedAt}</p>
+                {console.log(typeof todo.updatedAt)}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
