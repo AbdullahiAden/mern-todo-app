@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { Redirect, useHistory } from "react-router";
 
 const TodoDetailsPage = (props) => {
   const { id } = props.match.params;
   const api = ` http://localhost:5000/api/todoApp/${id}`;
 
   const [singleTodo, setSingleTodo] = useState([]);
+  const history = useHistory();
 
   //   get the details of a single todo
   async function fetchSingleTodo() {
@@ -17,6 +19,17 @@ const TodoDetailsPage = (props) => {
   useEffect(() => {
     fetchSingleTodo();
   }, []);
+
+  //   delete todo
+  async function deleteTodo(e) {
+    await fetch(api, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(() => history.push("/todoApp"));
+  }
+
   return (
     <div className="conatiner shadow m-3">
       {singleTodo.length < 0 ? (
@@ -35,7 +48,10 @@ const TodoDetailsPage = (props) => {
                 <h1>Content: {todo.content}</h1>
                 {/*  ONLY DATE ----------------------------- */}
                 <p>Last Edit: {todo.updatedAt}</p>
-                {console.log(typeof todo.updatedAt)}
+
+                <button onClick={deleteTodo} className="btn btn-danger">
+                  Delete
+                </button>
               </div>
             );
           })}

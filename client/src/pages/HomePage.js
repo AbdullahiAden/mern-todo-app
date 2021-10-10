@@ -84,7 +84,6 @@ const HomePage = () => {
                 </button>
               </div>
               <div className="modal-body">
-                <pre>{JSON.stringify(newTodo)}</pre>
                 <form
                   action="/api/todoApp/new"
                   method="Post"
