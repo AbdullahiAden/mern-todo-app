@@ -10,46 +10,25 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => {
-    console.log("CONNECTION OPEN");
-  })
-  .catch((error) => {
-    console.log("CONNECTION ERROR");
-    console.log(error);
-  });
+  .then(() => {})
+  .catch((error) => {});
+
+router.use(express.urlencoded({ extended: true }));
 
 // get all
 router.get("/api/todoApp", async function (req, res, next) {
   await Todos.find({}, (err, allTodos) => {
     res.send({ allTodos });
-    // res.render("index", { allTodos });
   });
 });
 
-// // serves form
-// router.get("/api/todoApp/new", function (req, res, next) {
-//   // res.render("new");
-//   console.log(req.body);
-// });
-
 // add new
 router.post("/api/todoApp/new", async (req, res) => {
-  console.log(req.body);
-
   const newTodo = Todos(req.body);
   await newTodo.save();
   if (newTodo) {
     res.send({ newTodo });
   }
-
-  // try {
-  //   res.send({ newTodo });
-  //   res.status(201).json(newTodo);
-
-  //   // res.send({ newTodo });
-  // } catch (err) {
-  //   res.status(409).json({ err: err });
-  // }
 });
 
 // get single
@@ -61,6 +40,12 @@ router.get("/api/todoApp/:id", async function (req, res, next) {
   });
 });
 
-// update
+// delete todo
+router.delete("/api/todoApp/:id", async function (req, res, next) {
+  const { id } = req.params;
+
+  await Todos.findByIdAndDelete(id);
+  res.redirect("/api/todoApp");
+});
 
 module.exports = router;
