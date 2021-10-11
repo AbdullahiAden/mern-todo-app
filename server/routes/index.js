@@ -27,7 +27,7 @@ router.post("/api/todoApp/new", async (req, res) => {
   const newTodo = Todos(req.body);
   await newTodo.save();
   if (newTodo) {
-    res.send({ newTodo });
+    res.redirect("/api/todoApp");
   }
 });
 
@@ -35,17 +35,34 @@ router.post("/api/todoApp/new", async (req, res) => {
 router.get("/api/todoApp/:id", async function (req, res, next) {
   const { id } = req.params;
 
-  await Todos.find({ _id: id }, (err, singleTodo) => {
-    res.send({ singleTodo });
-  });
+  const singleTodo = await Todos.findById(id);
+  res.send({ singleTodo });
 });
 
 // delete todo
-router.delete("/api/todoApp/:id", async function (req, res, next) {
+router.delete("/api/todoApp/:id/delete", async function (req, res, next) {
   const { id } = req.params;
 
-  await Todos.findByIdAndDelete(id);
+  console.log(id);
+
+  const deleted = await Todos.findByIdAndDelete(id);
+  res.json(deleted);
+
   res.redirect("/api/todoApp");
 });
 
+// update todo
+router.put("/api/todoApp/:id/update", async function (req, res, next) {
+  const { id } = req.params;
+
+  const updatedTodo = await Todos.findByIdAndUpdate(id, req.body.singleTodo, {
+    runValidators: true,
+    new: true,
+  });
+
+  res.json(updatedTodo);
+
+  res.redirect(`/api/todoApp/${updatedTodo._id}`);
+  // res.redirect("/api/todoApp");
+});
 module.exports = router;
