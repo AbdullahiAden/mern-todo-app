@@ -47,13 +47,13 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div>
+    <div className=" m-3 text-light">
       <h1>Todo App</h1>
 
       <div>
         <button
           type="button"
-          className="btn btn-primary mb-3"
+          className="btn btn-primary m-3 "
           data-toggle="modal"
           data-target="#exampleModal"
         >
@@ -76,24 +76,25 @@ const HomePage = () => {
                 </h5>
                 <button
                   type="button"
-                  className="close"
+                  className="close btn btn-outline-danger"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
                   <span aria-hidden="true">×</span>
                 </button>
               </div>
-              <div className="modal-body">
+              <div className="modal-body ">
                 <form
                   action="/api/todoApp/new"
                   method="Post"
                   onSubmit={handleOnSubmit}
                 >
-                  <div className="form-group col">
+                  <div className="form-group col mb-3">
                     <label htmlFor="title ">Title:</label>
                     <input
+                      required
                       type="text"
-                      className="form-control"
+                      className="form-control mt-2"
                       id="title"
                       name="title"
                       placeholder="Enter Todo"
@@ -102,11 +103,11 @@ const HomePage = () => {
                       }
                     />
                   </div>
-                  <div className="form-group col">
+                  <div className="form-group col mb-3">
                     <label htmlFor="content">Content:</label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control mt-2"
                       id="content"
                       placeholder="Enter content"
                       onChange={(e) =>
@@ -140,22 +141,34 @@ const HomePage = () => {
           </div>
         ) : (
           <div>
-            {allTodos.map((todo, index) => {
-              return (
-                <div
-                  key={index}
-                  className="shadow border-bottom border-primary m-2"
-                  onClick={() => {
-                    fetchSingleTodo(allTodos[index]._id);
-                  }}
-                >
-                  <strong>{todo.title}</strong>
-                  <div>{todo._id}</div>
+            {/* reverse the array bofore map */}
+            {allTodos
+              .slice(0)
+              .reverse()
+              .map((todo, index) => {
+                return (
+                  <div className="shadow border border-primary m-3 rounded p-2">
+                    <Link
+                      to={`/todoApp/${todo._id}`}
+                      className="text-decoration-none text-light"
+                    >
+                      <div
+                        key={index}
+                        onClick={() => {
+                          fetchSingleTodo(allTodos[index]._id);
+                        }}
+                      >
+                        <strong>{todo.title}</strong>
+                        {/* get only the first 10 char, which the year, month, day */}
 
-                  <Link to={`/todoApp/${todo._id}`}>View more </Link>
-                </div>
-              );
-            })}
+                        <p className="pt-2">
+                          <small>{todo.updatedAt.slice(0, 10)}</small>
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                );
+              })}
           </div>
         )}
       </div>

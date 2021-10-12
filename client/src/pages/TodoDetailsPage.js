@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { Redirect, useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
@@ -7,8 +8,8 @@ const TodoDetailsPage = (props) => {
   const api = ` http://localhost:5000/api/todoApp/${id}`;
 
   const [singleTodo, setSingleTodo] = useState([]);
-  const [newTodo, setNewdTodo] = useState({ title: "", content: "" });
-  const [updatedTodo, setUpdatedTodo] = useState({ title: "", content: "" });
+  // const [newTodo, setNewdTodo] = useState({ title: "", content: "" });
+  // const [updateTodo, setUpdateTodo] = useState({ title: "", content: "" });
   const history = useHistory();
 
   //   get the details of a single todo
@@ -25,21 +26,10 @@ const TodoDetailsPage = (props) => {
 
   //   delete todo
   async function deleteTodo(e) {
-    const url = ` http://localhost:5000/api/todoApp/${id}/delete `;
+    const url = ` http://localhost:5000/api/todoApp/${id}/delete`;
 
     await fetch(url, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(() => history.push("/todoApp"));
-  }
-  //   update todo --------
-  async function updateTodo(e) {
-    await fetch(api, {
-      method: "PUT",
-      body: JSON.stringify(updatedTodo),
-
       headers: {
         "Content-Type": "application/json",
       },
@@ -59,7 +49,6 @@ const TodoDetailsPage = (props) => {
                 {singleTodo.title}
               </span>{" "}
             </h1>
-
             <h1>Content: {singleTodo.content}</h1>
             {/* get only the first 10 char, which the year, month, day */}
             <div className="py-3">
@@ -69,16 +58,15 @@ const TodoDetailsPage = (props) => {
               )}
             </div>
 
-            {/* <Link to={`/todoApp/${todo._id}/update`}>Update</Link> */}
-
             <div>
-              <button
-                type="button"
-                className="btn btn-success m-2"
-                data-toggle="modal"
-                data-target="#exampleModal"
-              >
-                Update
+              <button className="btn btn-success m-2">
+                {" "}
+                <Link
+                  to={`/todoApp/${singleTodo._id}/update`}
+                  className="text-decoration-none text-light "
+                >
+                  Update
+                </Link>
               </button>
 
               <button onClick={deleteTodo} className="btn btn-danger ">
