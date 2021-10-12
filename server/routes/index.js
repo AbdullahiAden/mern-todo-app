@@ -55,14 +55,13 @@ router.delete("/api/todoApp/:id/delete", async function (req, res, next) {
 router.put("/api/todoApp/:id/update", async function (req, res, next) {
   const { id } = req.params;
 
-  const updatedTodo = await Todos.findByIdAndUpdate(id, req.body.singleTodo, {
+  const updatedTodo = await Todos.findByIdAndUpdate(id, req.body, {
     runValidators: true,
     new: true,
   });
 
-  res.json(updatedTodo);
+ res.json(updatedTodo);
 
   res.redirect(`/api/todoApp/${updatedTodo._id}`);
-  // res.redirect("/api/todoApp");
 });
 module.exports = router;
