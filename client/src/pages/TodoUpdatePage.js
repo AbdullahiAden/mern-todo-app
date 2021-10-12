@@ -8,7 +8,7 @@ const TodoUpdate = (props) => {
   const api = ` http://localhost:5000/api/todoApp/${id}`;
 
   const [singleTodo, setSingleTodo] = useState([]);
-  const [updateTodo, setUpdateTodo] = useState({ title: "", content: "" });
+  // const [updateTodo, setUpdateTodo] = useState({ title: "", content: "" });
 
   const history = useHistory();
 
@@ -34,7 +34,8 @@ const TodoUpdate = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setSingleTodo(data);
-        // window.location.reload();
+        // history.push(`todoApp/${id}`);
+        history.push("back");
       });
   };
 
@@ -44,18 +45,14 @@ const TodoUpdate = (props) => {
 
   return (
     <div>
-      <form
-        method="post"
-        onSubmit={updateSingleTodo}
-      >
+      <form method="post" onSubmit={updateSingleTodo}>
         <div className="form-group col mb-3">
           <pre>{JSON.stringify(singleTodo)}</pre>
           <label htmlFor="title ">Title:</label>
           <input
             type="text"
             className="form-control mt-2"
-            id="title"
-            name="title"
+            required
             value={singleTodo.title}
             onChange={(e) =>
               setSingleTodo({ ...singleTodo, title: e.target.value })
