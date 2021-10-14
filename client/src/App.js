@@ -4,6 +4,8 @@ import { Route, Switch } from "react-router";
 import HomePage from "./pages/HomePage";
 import TodoDetailsPage from "./pages/TodoDetailsPage";
 import TodoUpdatePage from "./pages/TodoUpdatePage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   return (
@@ -15,6 +17,13 @@ function App() {
 
         <Route path="/todoApp">
           <HomePage />
+        </Route>
+        <Route path="/signUp">
+          <SignUpPage/>
+        </Route>
+
+        <Route path="/">
+          <LoginPage />
         </Route>
       </Switch>
     </div>
