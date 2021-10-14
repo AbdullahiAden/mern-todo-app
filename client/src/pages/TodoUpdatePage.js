@@ -34,7 +34,6 @@ const TodoUpdate = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setSingleTodo(data);
-        // history.push(`todoApp/${id}`);
         history.push("back");
       });
   };
