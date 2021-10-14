@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var router = express.Router();
 
 const Todos = require("../models/todosModel");
+const User = require("../models/userModel")
 
 // db config
 mongoose
@@ -14,6 +15,23 @@ mongoose
   .catch((error) => {});
 
 router.use(express.urlencoded({ extended: true }));
+
+// register user
+router.post("/signUp", async  ( req,res)=>{
+  try {
+    console.log(req.body);
+    const {email, password}= req.body
+    const newUser= new User({email,password})
+
+  await newUser.save();
+  return res.status(200).json({data:newUser})
+    
+  } catch (error) {
+    return console.log(error);
+    
+  }
+
+})
 
 // get all
 router.get("/api/todoApp", async function (req, res, next) {
