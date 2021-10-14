@@ -1,9 +1,10 @@
 var express = require("express");
 var mongoose = require("mongoose");
+var bycrypt = require("bcryptjs");
 var router = express.Router();
 
 const Todos = require("../models/todosModel");
-const User = require("../models/userModel")
+const User = require("../models/userModel");
 
 // db config
 mongoose
@@ -17,21 +18,35 @@ mongoose
 router.use(express.urlencoded({ extended: true }));
 
 // register user
-router.post("/signUp", async  ( req,res)=>{
+router.post("/signUp", (req, res) => {
   try {
-    console.log(req.body);
-    const {email, password}= req.body
-    const newUser= new User({email,password})
+    const { email, password } = req.body;
 
-  await newUser.save();
-  return res.status(200).json({data:newUser})
-    
+    if (!email || !password) {
+      res.send({ error: "please fill al fields" });
+
+    } else {
+
+      User.findOne({ email: email }).then((user) => {
+        if (user) {
+          res.send({ error: "Email already exists" });
+        } else {
+          const newUser = new User({ email, password });
+          // hash the password
+          bycrypt.hash(password, 10, function (error, hash) {
+            // Store hashed  password in db
+            newUser.password = hash;
+
+            newUser.save();
+            return res.status(200).json({ data: newUser });
+          });
+        }
+      });
+    }
   } catch (error) {
-    return console.log(error);
-    
+    return error;
   }
-
-})
+});
 
 // get all
 router.get("/api/todoApp", async function (req, res, next) {
@@ -78,7 +93,7 @@ router.put("/api/todoApp/:id/update", async function (req, res, next) {
     new: true,
   });
 
- res.json(updatedTodo);
+  res.json(updatedTodo);
 
   res.redirect(`/api/todoApp/${updatedTodo._id}`);
 });
