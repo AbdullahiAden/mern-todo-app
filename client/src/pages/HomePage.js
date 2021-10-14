@@ -153,7 +153,6 @@ const HomePage = () => {
                       className="text-decoration-none text-light"
                     >
                       <div
-                        key={index}
                         onClick={() => {
                           fetchSingleTodo(allTodos[index]._id);
                         }}
