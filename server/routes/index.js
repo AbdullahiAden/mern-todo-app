@@ -17,35 +17,33 @@ mongoose
 
 router.use(express.urlencoded({ extended: true }));
 
-// register user
+// sign up user
 router.post("/signUp", (req, res) => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
       res.send({ error: "please fill al fields" });
-
     } else {
-
       User.findOne({ email: email }).then((user) => {
         if (user) {
           res.send({ error: "Email already exists" });
         } else {
           const newUser = new User({ email, password });
-          // hash the password
-          bycrypt.hash(password, 10, function (error, hash) {
-            // Store hashed  password in db
-            newUser.password = hash;
-
-            newUser.save();
-            return res.status(200).json({ data: newUser });
-          });
+          newUser.save();
+          res.status(200).json({ data: newUser });
+          // res.redirect("/");
         }
       });
     }
   } catch (error) {
     return error;
   }
+});
+
+// Login user
+router.post("/", (req, res) => {
+  res.send("Login Page");
 });
 
 // get all
