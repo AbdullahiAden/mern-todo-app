@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const SignUp = () => {
   const [newUser, setNewUser] = useState([]);
+
+  const history=useHistory()
 
   //   sign up new user
   const handleOnSubmit = async (e) => {
@@ -19,7 +21,8 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((data) => {
         setNewUser(data);
-        console.log(data);
+        history.push("/")
+        
       });
   };
   return (
