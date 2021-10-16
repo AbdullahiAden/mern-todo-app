@@ -147,7 +147,7 @@ const HomePage = () => {
               .reverse()
               .map((todo, index) => {
                 return (
-                  <div className="shadow border border-primary m-3 rounded p-2">
+                  <div key={index} className="shadow border border-primary m-3 rounded p-2">
                     <Link
                       to={`/todoApp/${todo._id}`}
                       className="text-decoration-none text-light"

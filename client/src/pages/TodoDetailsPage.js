@@ -37,7 +37,7 @@ const TodoDetailsPage = (props) => {
   }
 
   return (
-    <div className="conatiner shadow m-3 p-3 rounded border-bottom border-primary text-light">
+    <div className="conatiner shadow my-5 p-3 rounded border-bottom border-primary text-light">
       {singleTodo.length < 0 ? (
         <h1>Loading</h1>
       ) : (

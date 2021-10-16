@@ -43,9 +43,9 @@ const TodoUpdate = (props) => {
   }, []);
 
   return (
-    <div>
+    <div className="my-5 p-3 shadow rounded border-bottom border-primary ">
       <form method="post" onSubmit={updateSingleTodo}>
-        <div className="form-group col mb-3">
+        <div className="form-group col mb-3 ">
           <label htmlFor="title ">Title:</label>
           <input
             type="text"
