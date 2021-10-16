@@ -46,7 +46,6 @@ const TodoUpdate = (props) => {
     <div>
       <form method="post" onSubmit={updateSingleTodo}>
         <div className="form-group col mb-3">
-          <pre>{JSON.stringify(singleTodo)}</pre>
           <label htmlFor="title ">Title:</label>
           <input
             type="text"
