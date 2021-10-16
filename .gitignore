@@ -62,3 +62,4 @@ typings/
 
 # seed file for the databse
 seed.js
+.env
