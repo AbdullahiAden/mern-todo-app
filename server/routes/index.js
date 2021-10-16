@@ -18,7 +18,7 @@ mongoose
 router.use(express.urlencoded({ extended: true }));
 
 // sign up user
-router.post("/signUp", (req, res) => {
+router.post("/signUp",  (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -42,8 +42,11 @@ router.post("/signUp", (req, res) => {
 });
 
 // Login user
-router.post("/", (req, res) => {
-  res.send("Login Page");
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  console.log({email:email, password:password});
+  res.status(200);
+  res.json({success: "Login Page"});
 });
 
 // get all
