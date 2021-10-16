@@ -33,9 +33,7 @@ const SignUp = () => {
           <label htmlFor="oo">Email address</label>
           <input
             type="email"
-            // name="email"
             className="form-control"
-            // id="email"
             aria-describedby="emailHelp"
             placeholder="Enter email"
             onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
@@ -45,8 +43,6 @@ const SignUp = () => {
           <label htmlFor="password">Password</label>
           <input
             type="password"
-            // name="password"
-            // id="password"
             className="form-control"
             id="password"
             placeholder="Password"
