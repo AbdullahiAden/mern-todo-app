@@ -15,6 +15,23 @@ function App() {
           <a className="navbar-brand text-light" href="/todoApp">
             Todo App
           </a>
+          <div
+          className="collapse navbar-collapse justify-content-end "
+          id="navbarNav"
+        >
+          <ul className="navbar-nav">
+              <li className="nav-link text-light" href="#">
+                Cart
+              </li>
+              <a className="nav-link text-light" href="/login">
+                Login /
+              </a>
+              <span>
+                <a className="nav-link text-light" href="/register">Register</a>
+                {' '}
+              </span>
+            </ul>
+            </div>
         </nav>
       </div>
       <div className="container text-light">
