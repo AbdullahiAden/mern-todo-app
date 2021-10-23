@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const HomePage = () => {
   const [allTodos, setAllTodos] = useState([]);
-  const [singleTodo, setSingleTodo] = useState([]);
+  const [usersTodos, setUsersTodos] = useState([]);
   const [newTodo, setNewTodo] = useState({ title: "", content: "" });
+
+  const history = useHistory();
+  const token = localStorage.getItem("jwt");
 
   //   adding new todo
   const handleOnSubmit = async (e) => {
@@ -27,23 +30,41 @@ const HomePage = () => {
         window.location.reload();
       });
   };
-
+  function parseJwt(token) {
+    if (!token) {
+      return;
+    }
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(window.atob(base64));
+  }
   async function fetchAllTodos() {
     const api = "http://localhost:5000/api/todoApp";
+    const token = localStorage.getItem("jwt");
+
+    console.log(parseJwt(token));
 
     const res = await fetch(api);
     const data = await res.json();
+    console.log(data.allTodos);
     setAllTodos(data.allTodos);
   }
-  async function fetchSingleTodo(id) {
-    const api = ` http://localhost:5000/api/todoApp/${id}`;
+  async function fetchUserTodos() {
+    const userId = parseJwt(token).id;
+    const api = `http://localhost:5000/api/todoApp/user/${userId}`;
 
     const res = await fetch(api);
     const data = await res.json();
-    setSingleTodo(data.singleTodo[0]);
+    console.log(data.usersTodos);
+    setUsersTodos(data.usersTodos);
   }
+
   useEffect(() => {
-    fetchAllTodos();
+    if (token) {
+      fetchUserTodos();
+    } else {
+      fetchAllTodos();
+    }
   }, []);
 
   return (
@@ -134,32 +155,29 @@ const HomePage = () => {
         </div>
       </div>
 
+    {token?(
       <div className="row">
-        {allTodos.length < 0 ? (
+        {usersTodos.length < 0 ? (
           <div>
             <p>LOADING</p>
           </div>
         ) : (
           <div>
-            {/* reverse the array bofore map */}
-            {allTodos
+            {usersTodos
               .slice(0)
               .reverse()
               .map((todo, index) => {
                 return (
-                  <div key={index} className="shadow border border-primary m-3 rounded p-2">
+                  <div
+                    key={index}
+                    className="shadow border border-primary m-3 rounded p-2"
+                  >
                     <Link
                       to={`/todoApp/${todo._id}`}
                       className="text-decoration-none text-light"
                     >
-                      <div
-                        onClick={() => {
-                          fetchSingleTodo(allTodos[index]._id);
-                        }}
-                      >
+                      <div>
                         <strong>{todo.title}</strong>
-                        {/* get only the first 10 char, which the year, month, day */}
-
                         <p className="pt-2">
                           <small>{todo.updatedAt.slice(0, 10)}</small>
                         </p>
@@ -171,6 +189,44 @@ const HomePage = () => {
           </div>
         )}
       </div>
+    ):(
+      <div className="row">
+        {allTodos.length < 0 ? (
+          <div>
+            <p>LOADING</p>
+          </div>
+        ) : (
+          <div>
+            {allTodos
+              .slice(0)
+              .reverse()
+              .map((todo, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="shadow border border-primary m-3 rounded p-2"
+                  >
+                    <Link
+                      to={`/todoApp/${todo._id}`}
+                      className="text-decoration-none text-light"
+                    >
+                      <div>
+                        <strong>{todo.title}</strong>
+                        <p className="pt-2">
+                          <small>{todo.updatedAt.slice(0, 10)}</small>
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                );
+              })}
+          </div>
+        )}
+      </div>
+
+    )}
+
+      
     </div>
   );
 };
