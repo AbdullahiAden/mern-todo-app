@@ -9,8 +9,16 @@ const todosSchema = new mongoose.Schema(
       required: true,
     },
     content: String,
+
+    user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+
   },
-  { timestamps: true }
+  },
+  { timestamps: true },
+
 );
 
 module.exports = mongoose.model("Todo", todosSchema);
