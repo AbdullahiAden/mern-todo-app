@@ -1,10 +1,14 @@
 var express = require("express");
 var mongoose = require("mongoose");
-var bycrypt = require("bcryptjs");
+var bcryptjs = require("bcryptjs");
 var router = express.Router();
+
 
 const Todos = require("../models/todosModel");
 const User = require("../models/userModel");
+const jwt = require("jsonwebtoken");
+
+const  {requireAuth}= require("../middleware/authMiddleware")
 
 // db config
 mongoose
@@ -13,15 +17,23 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {})
-  .catch((error) => {});
+  .catch((error) => {
+    return error
+  });
 
-router.use(express.urlencoded({ extended: true }));
+
+const maxAge = 3 * 24 * 60 * 60;
+
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: maxAge,
+  });
+};
 
 // sign up user
-router.post("/signUp",  (req, res) => {
+router.post("/signUp", async (req, res) => {
+  const { email, password } = req.body;
   try {
-    const { email, password } = req.body;
-
     if (!email || !password) {
       res.send({ error: "please fill al fields" });
     } else {
@@ -31,35 +43,57 @@ router.post("/signUp",  (req, res) => {
         } else {
           const newUser = new User({ email, password });
           newUser.save();
-          res.status(200).json({ data: newUser });
-          // res.redirect("/");
+
+          res.status(201).json({ newUser, msg:"Created Your Account, Login" });
         }
       });
     }
   } catch (error) {
+    res.status(400)
     return error;
+
   }
+
 });
 
 // Login user
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log({email:email, password:password});
-  res.status(200);
-  res.json({success: "Login Page"});
+  try {
+    // send inputted email& password to static method in userModel
+    const user = await User.loginUser(email, password);
+    // create jwt token
+    const token = createToken(user._id);
+     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
+
+    res.status(200).json({jwt:token, user: user._id });
+  } catch (error) {
+    res.status(400).json({error:"Wrong email or password"});
+    return error
+  }
 });
 
 // get all
-router.get("/api/todoApp", async function (req, res, next) {
-  await Todos.find({}, (err, allTodos) => {
-    res.send({ allTodos });
-  });
+router.get("/api/todoApp" , async function (req, res, next) {
+  console.log(req.body)
+  const allTodos= await Todos.find({})
+  res.status(200).json({  allTodos });
+
+});
+// get users todo
+router.get("/api/todoApp/user/:userId" , async function (req, res, next) {
+  const {userId}=req.params
+  const usersTodos= await Todos.find({user:userId})
+  res.status(200).json({  usersTodos });
+
 });
 
 // add new
 router.post("/api/todoApp/new", async (req, res) => {
+  console.log(req.body)
   const newTodo = Todos(req.body);
   await newTodo.save();
+  res.json(newTodo)
   if (newTodo) {
     res.redirect("/api/todoApp");
   }
