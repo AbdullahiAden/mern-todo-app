@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router";
-
 import { Link, useHistory } from "react-router-dom";
 
 const HomePage = () => {
@@ -26,10 +24,10 @@ const HomePage = () => {
       .then((res) => res.json())
       .then((data) => {
         setNewTodo(data);
-
         window.location.reload();
       });
   };
+  // get logged in user's info from token 
   function parseJwt(token) {
     if (!token) {
       return;
@@ -38,30 +36,25 @@ const HomePage = () => {
     const base64 = base64Url.replace("-", "+").replace("_", "/");
     return JSON.parse(window.atob(base64));
   }
+
   async function fetchAllTodos() {
     const api = "http://localhost:5000/api/todoApp";
-    const token = localStorage.getItem("jwt");
-
-    console.log(parseJwt(token));
-
     const res = await fetch(api);
     const data = await res.json();
-    console.log(data.allTodos);
     setAllTodos(data.allTodos);
   }
-  async function fetchUserTodos() {
+
+  async function fetchUsersTodos() {
     const userId = parseJwt(token).id;
     const api = `http://localhost:5000/api/todoApp/user/${userId}`;
-
     const res = await fetch(api);
     const data = await res.json();
-    console.log(data.usersTodos);
     setUsersTodos(data.usersTodos);
   }
 
   useEffect(() => {
     if (token) {
-      fetchUserTodos();
+      fetchUsersTodos();
     } else {
       fetchAllTodos();
     }
@@ -155,78 +148,75 @@ const HomePage = () => {
         </div>
       </div>
 
-    {token?(
-      <div className="row">
-        {usersTodos.length < 0 ? (
-          <div>
-            <p>LOADING</p>
-          </div>
-        ) : (
-          <div>
-            {usersTodos
-              .slice(0)
-              .reverse()
-              .map((todo, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="shadow border border-primary m-3 rounded p-2"
-                  >
-                    <Link
-                      to={`/todoApp/${todo._id}`}
-                      className="text-decoration-none text-light"
+      {token ? (
+        <div className="row">
+          {usersTodos.length < 0 ? (
+            <div>
+              <p>LOADING</p>
+            </div>
+          ) : (
+            <div>
+              {usersTodos
+                .slice(0)
+                .reverse()
+                .map((todo, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="shadow border border-primary m-3 rounded p-2"
                     >
-                      <div>
-                        <strong>{todo.title}</strong>
-                        <p className="pt-2">
-                          <small>{todo.updatedAt.slice(0, 10)}</small>
-                        </p>
-                      </div>
-                    </Link>
-                  </div>
-                );
-              })}
-          </div>
-        )}
-      </div>
-    ):(
-      <div className="row">
-        {allTodos.length < 0 ? (
-          <div>
-            <p>LOADING</p>
-          </div>
-        ) : (
-          <div>
-            {allTodos
-              .slice(0)
-              .reverse()
-              .map((todo, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="shadow border border-primary m-3 rounded p-2"
-                  >
-                    <Link
-                      to={`/todoApp/${todo._id}`}
-                      className="text-decoration-none text-light"
+                      <Link
+                        to={`/todoApp/${todo._id}`}
+                        className="text-decoration-none text-light"
+                      >
+                        <div>
+                          <strong>{todo.title}</strong>
+                          <p className="pt-2">
+                            <small>{todo.updatedAt.slice(0, 10)}</small>
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                })}
+            </div>
+          )}
+        </div>
+      ) : (
+        <div className="row">
+          {allTodos.length < 0 ? (
+            <div>
+              <p>LOADING</p>
+            </div>
+          ) : (
+            <div>
+              {allTodos
+                .slice(0)
+                .reverse()
+                .map((todo, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="shadow border border-primary m-3 rounded p-2"
                     >
-                      <div>
-                        <strong>{todo.title}</strong>
-                        <p className="pt-2">
-                          <small>{todo.updatedAt.slice(0, 10)}</small>
-                        </p>
-                      </div>
-                    </Link>
-                  </div>
-                );
-              })}
-          </div>
-        )}
-      </div>
-
-    )}
-
-      
+                      <Link
+                        to={`/todoApp/${todo._id}`}
+                        className="text-decoration-none text-light"
+                      >
+                        <div>
+                          <strong>{todo.title}</strong>
+                          <p className="pt-2">
+                            <small>{todo.updatedAt.slice(0, 10)}</small>
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                })}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
