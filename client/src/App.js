@@ -6,34 +6,13 @@ import TodoDetailsPage from "./pages/TodoDetailsPage";
 import TodoUpdatePage from "./pages/TodoUpdatePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div>
-      <div>
-        <nav className="navbar fixed-top navbar-light bg-dark px-3">
-          <a className="navbar-brand text-light" href="/todoApp">
-            Todo App
-          </a>
-          <div
-          className="collapse navbar-collapse justify-content-end "
-          id="navbarNav"
-        >
-          <ul className="navbar-nav">
-              <li className="nav-link text-light" href="#">
-                Cart
-              </li>
-              <a className="nav-link text-light" href="/login">
-                Login /
-              </a>
-              <span>
-                <a className="nav-link text-light" href="/register">Register</a>
-                {' '}
-              </span>
-            </ul>
-            </div>
-        </nav>
-      </div>
+      <Navbar />
+
       <div className="container text-light">
         <div className="py-5">
           <Switch>
