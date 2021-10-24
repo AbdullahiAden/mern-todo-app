@@ -8,8 +8,6 @@ const TodoDetailsPage = (props) => {
   const api = ` http://localhost:5000/api/todoApp/${id}`;
 
   const [singleTodo, setSingleTodo] = useState([]);
-  // const [newTodo, setNewdTodo] = useState({ title: "", content: "" });
-  // const [updateTodo, setUpdateTodo] = useState({ title: "", content: "" });
   const history = useHistory();
 
   //   get the details of a single todo
