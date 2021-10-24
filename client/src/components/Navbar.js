@@ -76,7 +76,7 @@ export default function Navbar() {
                 </a>
               </li>
               <a className="nav-link text-light" href="/login">
-                Login /
+                Login 
               </a>
               <span>
                 <a className="nav-link text-light" href="/signup">
