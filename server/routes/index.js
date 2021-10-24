@@ -3,12 +3,11 @@ var mongoose = require("mongoose");
 var bcryptjs = require("bcryptjs");
 var router = express.Router();
 
-
 const Todos = require("../models/todosModel");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 
-const  {requireAuth}= require("../middleware/authMiddleware")
+const { requireAuth } = require("../middleware/authMiddleware");
 
 // db config
 mongoose
@@ -18,9 +17,8 @@ mongoose
   })
   .then(() => {})
   .catch((error) => {
-    return error
+    return error;
   });
-
 
 const maxAge = 3 * 24 * 60 * 60;
 
@@ -44,16 +42,14 @@ router.post("/signUp", async (req, res) => {
           const newUser = new User({ email, password });
           newUser.save();
 
-          res.status(201).json({ newUser, msg:"Created Your Account, Login" });
+          res.status(201).json({ newUser, msg: "Created Your Account, Login" });
         }
       });
     }
   } catch (error) {
-    res.status(400)
+    res.status(400);
     return error;
-
   }
-
 });
 
 // Login user
@@ -64,36 +60,34 @@ router.post("/login", async (req, res) => {
     const user = await User.loginUser(email, password);
     // create jwt token
     const token = createToken(user._id);
-     res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
+    res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 });
 
-    res.status(200).json({jwt:token, user: user._id });
+    res.status(200).json({ jwt: token, user: user._id });
   } catch (error) {
-    res.status(400).json({error:"Wrong email or password"});
-    return error
+    res.status(400).json({ error: "Wrong email or password" });
+    return error;
   }
 });
 
 // get all
-router.get("/api/todoApp" , async function (req, res, next) {
-  console.log(req.body)
-  const allTodos= await Todos.find({})
-  res.status(200).json({  allTodos });
-
+router.get("/api/todoApp", async function (req, res, next) {
+  const allTodos = await Todos.find({});
+  res.status(200).json({ allTodos });
 });
 // get users todo
-router.get("/api/todoApp/user/:userId" , async function (req, res, next) {
-  const {userId}=req.params
-  const usersTodos= await Todos.find({user:userId})
-  res.status(200).json({  usersTodos });
-
+router.get("/api/todoApp/user/:userId", async function (req, res, next) {
+  const { userId } = req.params;
+  const usersTodos = await Todos.find({ user: userId });
+  res.status(200).json({ usersTodos });
 });
 
 // add new
 router.post("/api/todoApp/new", async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
+  console.log(req.params);
   const newTodo = Todos(req.body);
   await newTodo.save();
-  res.json(newTodo)
+  res.json(newTodo);
   if (newTodo) {
     res.redirect("/api/todoApp");
   }
@@ -110,9 +104,6 @@ router.get("/api/todoApp/:id", async function (req, res, next) {
 // delete todo
 router.delete("/api/todoApp/:id/delete", async function (req, res, next) {
   const { id } = req.params;
-
-  console.log(id);
-
   const deleted = await Todos.findByIdAndDelete(id);
   res.json(deleted);
 
