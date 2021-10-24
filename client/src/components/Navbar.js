@@ -47,7 +47,7 @@ export default function Navbar() {
               <li className="nav-item" />
               <li className="nav-item">
                 <a className="nav-link text-light" href="/todoApp">
-                  All Todos
+                  My Todos
                 </a>
               </li>
 
