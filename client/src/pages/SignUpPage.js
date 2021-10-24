@@ -10,8 +10,8 @@ const SignUp = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     const api = "http://localhost:5000/signUp";
-
-    await fetch(api, {
+    try {
+       await fetch(api, {
       method: "POST",
       body: JSON.stringify(newUser),
       headers: {
@@ -21,9 +21,23 @@ const SignUp = () => {
       .then((res) => res.json())
       .then((data) => {
         setNewUser(data);
-        history.push("/")
+        if (data.newUser) {
+          history.push("/login");
+          alert(data.msg)
+          
+        }else{
+          alert(data.error)
+        }
         
       });
+    } catch (error) {
+      return error
+  
+
+      
+    }
+
+   
   };
   return (
     <div className="container mt-5">
