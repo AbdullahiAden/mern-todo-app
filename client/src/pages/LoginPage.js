@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 
 const LoginPage = () => {
   const [signUser, setSignUser] = useState([]);
+  const [error, setError] = useState("");
   const history = useHistory();
 
   //   sign in user
@@ -14,26 +15,28 @@ const LoginPage = () => {
       await fetch(api, {
         method: "POST",
         body: JSON.stringify(signUser),
-        
+
         headers: {
           "Content-Type": "application/json",
-          withCredentials: true, credentials: 'include'
+          withCredentials: true,
+          credentials: "include",
         },
-
       })
         .then((res) => res.json())
         .then((data) => {
           setSignUser(data);
           console.log(data);
           if (data.user) {
-            localStorage.setItem('jwt', data.jwt);
+            localStorage.setItem("jwt", data.jwt);
 
             history.push("/todoApp");
             console.log(signUser);
+          } else {
+            setError(data.error)
           }
         });
     } catch (error) {
-      console.log(error);
+      return error;
     }
   };
   return (
@@ -42,6 +45,13 @@ const LoginPage = () => {
 
       <div className="container">
         <form onSubmit={handleOnSubmit}>
+          {error != "" ? (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          ) : (
+            ""
+          )}
           <div className="form-group my-3">
             <label htmlFor="email">Email address</label>
             <input

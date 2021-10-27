@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 
 const SignUp = () => {
   const [newUser, setNewUser] = useState([]);
+    const [error, setError] = useState("");
+
 
   const history=useHistory()
 
@@ -26,7 +28,8 @@ const SignUp = () => {
           alert(data.msg)
           
         }else{
-          alert(data.error)
+          setError(data.error)
+
         }
         
       });
@@ -43,6 +46,13 @@ const SignUp = () => {
     <div className="container mt-5">
       <h1>Sign Up</h1>
       <form onSubmit={handleOnSubmit}>
+        {error != "" ? (
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          ) : (
+            ""
+          )}
         <div className="form-group my-3">
           <label htmlFor="oo">Email address</label>
           <input

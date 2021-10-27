@@ -5,7 +5,7 @@ const HomePage = () => {
   const [allTodos, setAllTodos] = useState([]);
   const [usersTodos, setUsersTodos] = useState([]);
   const history = useHistory();
-   let userId
+  let userId;
 
   const token = localStorage.getItem("jwt");
   // get logged in user's info from token
@@ -18,9 +18,8 @@ const HomePage = () => {
     return JSON.parse(window.atob(base64));
   }
 
-  if(token){
-       userId = parseJwt(token).id;
-
+  if (token) {
+    userId = parseJwt(token).id;
   }
   const [newTodo, setNewTodo] = useState({
     title: "",
@@ -63,9 +62,11 @@ const HomePage = () => {
   }
 
   useEffect(() => {
+
     if (token) {
       fetchUsersTodos();
     } else {
+      
       fetchAllTodos();
     }
     

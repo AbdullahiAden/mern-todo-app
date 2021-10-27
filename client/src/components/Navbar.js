@@ -70,11 +70,6 @@ export default function Navbar() {
           )}
           {!token && (
             <ul className="navbar-nav">
-              <li className="nav-item">
-                <a className="nav-link text-light" href="/todoApp">
-                  All Todos
-                </a>
-              </li>
               <a className="nav-link text-light" href="/login">
                 Login 
               </a>
