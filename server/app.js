@@ -12,6 +12,17 @@ var indexRouter = require("./routes/index");
 
 var app = express();
 
+dotenv.config({ path: './config.env' });
+const database = process.env.DATABASE.replace(
+  '<password>',
+  process.env.DATABASE_PASSWORD,
+);
+// db config
+mongoose
+  .connect(database)
+  .then(() => console.log('connected to db'))
+  .catch((error) => console.log(error));
+
 
 app.use(cors());
 app.use(cors({ origin: true, credentials: true }))

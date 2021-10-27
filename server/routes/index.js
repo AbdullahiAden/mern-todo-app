@@ -9,17 +9,6 @@ const jwt = require("jsonwebtoken");
 
 const { requireAuth } = require("../middleware/authMiddleware");
 
-// db config
-mongoose
-  .connect("mongodb://localhost:27017/todoApp", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {})
-  .catch((error) => {
-    return error;
-  });
-
 const maxAge = 3 * 24 * 60 * 60;
 
 const createToken = (id) => {
@@ -71,6 +60,7 @@ router.post("/login", async (req, res) => {
 
 // get all
 router.get("/api/todoApp", async function (req, res, next) {
+  // const allTodos = await Todos.find({ user : { $exists: false } });
   const allTodos = await Todos.find({});
   res.status(200).json({ allTodos });
 });
