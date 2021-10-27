@@ -4,10 +4,29 @@ import { Link, useHistory } from "react-router-dom";
 const HomePage = () => {
   const [allTodos, setAllTodos] = useState([]);
   const [usersTodos, setUsersTodos] = useState([]);
-  const [newTodo, setNewTodo] = useState({ title: "", content: "" });
-
   const history = useHistory();
+   let userId
+
   const token = localStorage.getItem("jwt");
+  // get logged in user's info from token
+  function parseJwt(token) {
+    if (!token) {
+      return;
+    }
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(window.atob(base64));
+  }
+
+  if(token){
+       userId = parseJwt(token).id;
+
+  }
+  const [newTodo, setNewTodo] = useState({
+    title: "",
+    content: "",
+    user: userId,
+  });
 
   //   adding new todo
   const handleOnSubmit = async (e) => {
@@ -27,15 +46,6 @@ const HomePage = () => {
         window.location.reload();
       });
   };
-  // get logged in user's info from token 
-  function parseJwt(token) {
-    if (!token) {
-      return;
-    }
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace("-", "+").replace("_", "/");
-    return JSON.parse(window.atob(base64));
-  }
 
   async function fetchAllTodos() {
     const api = "http://localhost:5000/api/todoApp";
@@ -45,7 +55,7 @@ const HomePage = () => {
   }
 
   async function fetchUsersTodos() {
-    const userId = parseJwt(token).id;
+    // const userId = parseJwt(token).id;
     const api = `http://localhost:5000/api/todoApp/user/${userId}`;
     const res = await fetch(api);
     const data = await res.json();
@@ -58,6 +68,7 @@ const HomePage = () => {
     } else {
       fetchAllTodos();
     }
+    
   }, []);
 
   return (
@@ -171,6 +182,7 @@ const HomePage = () => {
                       >
                         <div>
                           <strong>{todo.title}</strong>
+                          <p>{todo.content}</p>
                           <p className="pt-2">
                             <small>{todo.updatedAt.slice(0, 10)}</small>
                           </p>
@@ -205,6 +217,7 @@ const HomePage = () => {
                       >
                         <div>
                           <strong>{todo.title}</strong>
+                          <p>{todo.content}</p>
                           <p className="pt-2">
                             <small>{todo.updatedAt.slice(0, 10)}</small>
                           </p>
