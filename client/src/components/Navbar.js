@@ -14,7 +14,6 @@ export default function Navbar() {
     return JSON.parse(window.atob(base64));
   }
   function logoutUser() {
-    console.log("clicked logout ");
     localStorage.removeItem("jwt");
     history.push("/login");
   }
@@ -51,12 +50,6 @@ export default function Navbar() {
                 </a>
               </li>
 
-              <li className="nav-item">
-                <li className="nav-link text-light" href="#">
-                  {/* {user.fullName} */}
-                </li>
-              </li>
-
               <li>
                 <a
                   href="/login"
@@ -70,14 +63,15 @@ export default function Navbar() {
           )}
           {!token && (
             <ul className="navbar-nav">
-              <a className="nav-link text-light" href="/login">
-                Login 
+              <a className="nav-link text-light" href="/todoApp">
+                All Todos
               </a>
-              <span>
-                <a className="nav-link text-light" href="/signup">
-                  Sign up
-                </a>{" "}
-              </span>
+              <a className="nav-link text-light" href="/login">
+                Login
+              </a>
+              <a className="nav-link text-light" href="/signup">
+                Sign up
+              </a>
             </ul>
           )}
         </div>
