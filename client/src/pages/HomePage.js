@@ -30,7 +30,7 @@ const HomePage = () => {
   //   adding new todo
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const api = "http://localhost:5000/api/todoApp/new";
+    const api = "https://mern-todoapp-be3.herokuapp.com/api/todoApp/new";
 
     await fetch(api, {
       method: "POST",
