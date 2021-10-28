@@ -54,7 +54,9 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// get all
+router.get("/", async function (req, res, next) {
+  res.redirect("/api/todoApp")
+});
 router.get("/api/todoApp", async function (req, res, next) {
   const allTodos = await Todos.find({});
   res.status(200).json({ allTodos });
