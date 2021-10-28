@@ -47,7 +47,7 @@ const HomePage = () => {
   };
 
   async function fetchAllTodos() {
-    const api = "http://localhost:5000/api/todoApp";
+    const api = "https://mern-todoapp-be3.herokuapp.com/api/todoApp";
     const res = await fetch(api);
     const data = await res.json();
     setAllTodos(data.allTodos);
