@@ -25,12 +25,10 @@ const LoginPage = () => {
         .then((res) => res.json())
         .then((data) => {
           setSignUser(data);
-          console.log(data);
           if (data.user) {
             localStorage.setItem("jwt", data.jwt);
 
             history.push("/todoApp");
-            console.log(signUser);
           } else {
             setError(data.error)
           }

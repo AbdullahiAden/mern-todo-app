@@ -1,13 +1,9 @@
-var express = require("express");
-var mongoose = require("mongoose");
-var bcryptjs = require("bcryptjs");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
 const Todos = require("../models/todosModel");
 const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
-
-const { requireAuth } = require("../middleware/authMiddleware");
 
 const maxAge = 3 * 24 * 60 * 60;
 
@@ -60,7 +56,6 @@ router.post("/login", async (req, res) => {
 
 // get all
 router.get("/api/todoApp", async function (req, res, next) {
-  // const allTodos = await Todos.find({ user : { $exists: false } });
   const allTodos = await Todos.find({});
   res.status(200).json({ allTodos });
 });
@@ -73,8 +68,6 @@ router.get("/api/todoApp/user/:userId", async function (req, res, next) {
 
 // add new
 router.post("/api/todoApp/new", async (req, res) => {
-  console.log(req.body);
-  console.log(req.params);
   const newTodo = Todos(req.body);
   await newTodo.save();
   res.json(newTodo);
