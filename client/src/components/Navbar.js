@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <div className=" ">
       <nav className="navbar navbar-expand-md navbar-dark bg-primary px-3">
-        <a className="navbar-brand " href="/todoApp">
+        <a className="navbar-brand " href="/">
           <h3 className="mb-0 "> TODO APP </h3>
         </a>
         <button
@@ -53,7 +53,7 @@ export default function Navbar() {
           )}
           {!token && (
             <ul className="navbar-nav">
-              <a className="nav-link text-light" href="/todoApp">
+              <a className="nav-link text-light" href="/">
                 All Todos
               </a>
               <a className="nav-link text-light" href="/login">
