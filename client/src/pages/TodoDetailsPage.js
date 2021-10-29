@@ -4,7 +4,9 @@ import { Link } from "react-router-dom";
 
 const TodoDetailsPage = (props) => {
   const { id } = props.match.params;
-  const api = ` http://localhost:5000/api/todoApp/${id}`;
+    const baseEndpoint="https://mern-todoapp-be3.herokuapp.com/api/todoApp"
+
+  const api = ` ${baseEndpoint}/${id}`;
 
   const [singleTodo, setSingleTodo] = useState([]);
   const history = useHistory();
@@ -23,7 +25,7 @@ const TodoDetailsPage = (props) => {
 
   //   delete todo
   async function deleteTodo(e) {
-    const url = ` http://localhost:5000/api/todoApp/${id}/delete`;
+    const url = `${baseEndpoint}/${id}/delete`;
 
     await fetch(url, {
       method: "DELETE",

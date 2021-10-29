@@ -4,14 +4,15 @@ import { Link, useHistory } from "react-router-dom";
 const SignUp = () => {
   const [newUser, setNewUser] = useState([]);
     const [error, setError] = useState("");
+    const history=useHistory()
 
+  const baseEndpoint="https://mern-todoapp-be3.herokuapp.com"
 
-  const history=useHistory()
 
   //   sign up new user
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const api = "http://localhost:5000/signUp";
+    const api = `${baseEndpoint}/signup`;
     try {
        await fetch(api, {
       method: "POST",

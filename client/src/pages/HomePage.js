@@ -49,7 +49,6 @@ const HomePage = () => {
   };
 
   async function fetchAllTodos() {
-    const api = "https://mern-todoapp-be3.herokuapp.com/api/todoApp";
     const res = await fetch(baseEndpoint);
     const data = await res.json();
     setAllTodos(data.allTodos);
@@ -57,7 +56,7 @@ const HomePage = () => {
 
   async function fetchUsersTodos() {
     // const userId = parseJwt(token).id;
-    const api = `http://localhost:5000/api/todoApp/user/${userId}`;
+    const api = `${baseEndpoint}/user/${userId}`;
     const res = await fetch(api);
     const data = await res.json();
     setUsersTodos(data.usersTodos);

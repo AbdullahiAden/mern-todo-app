@@ -6,10 +6,13 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const history = useHistory();
 
+
+  const baseEndpoint="https://mern-todoapp-be3.herokuapp.com"
+
   //   sign in user
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const api = "http://localhost:5000/login";
+    const api = `${baseEndpoint}/login`;
 
     try {
       await fetch(api, {
