@@ -30,8 +30,11 @@ function App() {
               <SignUpPage />
             </Route>
 
-            <Route path="/">
+            <Route path="/login">
               <LoginPage />
+            </Route>
+            <Route path="/">
+              <HomePage />
             </Route>
           </Switch>
         </div>
