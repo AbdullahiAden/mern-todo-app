@@ -23,9 +23,6 @@ function App() {
 
             <Route path="/todoApp/:id" component={TodoDetailsPage}></Route>
 
-            <Route path="/todoApp">
-              <HomePage />
-            </Route>
             <Route path="/signUp">
               <SignUpPage />
             </Route>
@@ -33,6 +30,7 @@ function App() {
             <Route path="/login">
               <LoginPage />
             </Route>
+
             <Route path="/">
               <HomePage />
             </Route>
