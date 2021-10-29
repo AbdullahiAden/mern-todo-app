@@ -5,7 +5,9 @@ import { useHistory } from "react-router-dom";
 
 const TodoUpdate = (props) => {
   const { id } = props.match.params;
-  const api = ` http://localhost:5000/api/todoApp/${id}`;
+    const baseEndpoint = "https://mern-todoapp-be3.herokuapp.com/api/todoApp";
+
+  const api = `${baseEndpoint}/${id}`;
 
   const [singleTodo, setSingleTodo] = useState([]);
   // const [updateTodo, setUpdateTodo] = useState({ title: "", content: "" });
@@ -22,7 +24,7 @@ const TodoUpdate = (props) => {
   //   update todo --------
   const updateSingleTodo = async (e) => {
     e.preventDefault();
-    const updateApi = ` http://localhost:5000/api/todoApp/${id}/update`;
+    const updateApi = ` ${baseEndpoint}/${id}/update`;
 
     await fetch(updateApi, {
       method: "PUT",
