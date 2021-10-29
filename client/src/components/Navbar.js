@@ -35,7 +35,7 @@ export default function Navbar() {
             <ul className="navbar-nav ">
               <li className="nav-item" />
               <li className="nav-item">
-                <a className="nav-link text-light" href="/todoApp">
+                <a className="nav-link text-light" href="/">
                   My Todos
                 </a>
               </li>
