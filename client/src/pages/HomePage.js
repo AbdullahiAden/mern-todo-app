@@ -7,6 +7,8 @@ const HomePage = () => {
   const history = useHistory();
   let userId;
 
+  const baseEndpoint="https://mern-todoapp-be3.herokuapp.com/api/todoApp"
+
   const token = localStorage.getItem("jwt");
   // get logged in user's info from token
   function parseJwt(token) {
@@ -30,7 +32,7 @@ const HomePage = () => {
   //   adding new todo
   const handleOnSubmit = async (e) => {
     e.preventDefault();
-    const api = "https://mern-todoapp-be3.herokuapp.com/api/todoApp/new";
+    const api = `${baseEndpoint}/new`;
 
     await fetch(api, {
       method: "POST",
@@ -48,7 +50,7 @@ const HomePage = () => {
 
   async function fetchAllTodos() {
     const api = "https://mern-todoapp-be3.herokuapp.com/api/todoApp";
-    const res = await fetch(api);
+    const res = await fetch(baseEndpoint);
     const data = await res.json();
     setAllTodos(data.allTodos);
   }
