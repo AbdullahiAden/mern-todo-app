@@ -43,7 +43,7 @@ const LoginPage = () => {
 
       <div className="container">
         <form onSubmit={handleOnSubmit}>
-          {error != "" ? (
+          {error !== "" ? (
             <div className="alert alert-danger" role="alert">
               {error}
             </div>

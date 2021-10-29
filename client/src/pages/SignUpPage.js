@@ -46,7 +46,7 @@ const SignUp = () => {
     <div className="container mt-5">
       <h1>Sign Up</h1>
       <form onSubmit={handleOnSubmit}>
-        {error != "" ? (
+        {error !== "" ? (
             <div className="alert alert-danger" role="alert">
               {error}
             </div>
