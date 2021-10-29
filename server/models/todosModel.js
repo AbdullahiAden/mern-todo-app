@@ -11,13 +11,11 @@ const todosSchema = new mongoose.Schema(
     content: String,
 
     user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
-  },
-  { timestamps: true },
-
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Todo", todosSchema);

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {  useHistory } from "react-router";
+import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 
 const TodoDetailsPage = (props) => {
   const { id } = props.match.params;
-    const baseEndpoint="https://mern-todoapp-be3.herokuapp.com/api/todoApp"
+  const baseEndpoint = "https://mern-todoapp-be3.herokuapp.com/api/todoApp";
 
   const api = ` ${baseEndpoint}/${id}`;
 

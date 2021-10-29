@@ -6,8 +6,7 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const history = useHistory();
 
-
-  const baseEndpoint="https://mern-todoapp-be3.herokuapp.com"
+  const baseEndpoint = "https://mern-todoapp-be3.herokuapp.com";
 
   //   sign in user
   const handleOnSubmit = async (e) => {
@@ -33,7 +32,7 @@ const LoginPage = () => {
 
             history.push("/todoApp");
           } else {
-            setError(data.error)
+            setError(data.error);
           }
         });
     } catch (error) {

@@ -1,24 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 
 export default function Navbar() {
   const history = useHistory();
   const token = localStorage.getItem("jwt");
 
-  function parseJwt(token) {
-    if (!token) {
-      return;
-    }
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace("-", "+").replace("_", "/");
-    return JSON.parse(window.atob(base64));
-  }
   function logoutUser() {
     localStorage.removeItem("jwt");
     history.push("/login");
   }
-
-  useEffect(() => {}, []);
 
   return (
     <div className=" ">

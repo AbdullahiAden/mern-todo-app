@@ -7,7 +7,7 @@ const HomePage = () => {
   const history = useHistory();
   let userId;
 
-  const baseEndpoint="https://mern-todoapp-be3.herokuapp.com/api/todoApp"
+  const baseEndpoint = "https://mern-todoapp-be3.herokuapp.com/api/todoApp";
 
   const token = localStorage.getItem("jwt");
   // get logged in user's info from token
@@ -63,14 +63,11 @@ const HomePage = () => {
   }
 
   useEffect(() => {
-
     if (token) {
       fetchUsersTodos();
     } else {
-      
       fetchAllTodos();
     }
-    
   }, []);
 
   return (
