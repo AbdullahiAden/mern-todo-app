@@ -1,3 +1,11 @@
+:root {
+  --primary-color: #050211;
+  --secondary-color: #ffb774;
+}
+body {
+  background-color: var(--primary-color);
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +43,64 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.navbar {
+  background-color: var(--primary-color) !important;
+  border-bottom: 1px solid var(--secondary-color);
+}
+
+.todo {
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid var(--secondary-color);
+  margin-bottom: 1rem;
+}
+.row {
+  display: grid;
+  grid-template-columns: 8fr 1fr;
+  grid-template-rows: 1fr;
+}
+.btn-grid {
+  padding-top: 20px;
+}
+.date {
+  font-weight: lighter;
+  opacity: 80%;
+}
+
+.done {
+  border: 1px solid var(--secondary-color) !important;
+  text-decoration: line-through;
+  height: 40px;
+  width: inherit;
+  border-radius: 3px;
+  border: none;
+  font-weight: lighter;
+  letter-spacing: 2px;
+  padding: 10px;
+  cursor: pointer;
+}
+.page-link {
+  border: 1px solid var(--secondary-color);
+  border-radius: 3px;
+  margin-right: 1rem;
+  text-decoration: none;
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+}
+.page-link:hover {
+  border: 3px solid var(--secondary-color);
+  border-radius: 3px;
+  margin-right: 1rem;
+  text-decoration: none;
+  color: var(--secondary-color);
+  background-color: var(--primary-color);
+}
+
+.list-group-item {
+  border-bottom: 1px solid var(--secondary-color);
+  background-color: var(--primary-color);
+  color: white;
+  margin-bottom: 1rem;
 }

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import "../App.css";
 
 const HomePage = () => {
   const [allTodos, setAllTodos] = useState([]);
   const [usersTodos, setUsersTodos] = useState([]);
+  const [done, setDone] = useState(false);
   const history = useHistory();
   let userId;
 
@@ -48,11 +50,11 @@ const HomePage = () => {
       });
   };
 
-  async function fetchAllTodos() {
-    const res = await fetch(baseEndpoint);
-    const data = await res.json();
-    setAllTodos(data.allTodos);
-  }
+  // async function fetchAllTodos() {
+  //   const res = await fetch(baseEndpoint);
+  //   const data = await res.json();
+  //   setAllTodos(data.allTodos);
+  // }
 
   async function fetchUsersTodos() {
     // const userId = parseJwt(token).id;
@@ -62,11 +64,13 @@ const HomePage = () => {
     setUsersTodos(data.usersTodos);
   }
 
+  const toggleDone = () => {
+    setDone(!done);
+  };
+
   useEffect(() => {
     if (token) {
       fetchUsersTodos();
-    } else {
-      fetchAllTodos();
     }
   }, []);
 
@@ -75,15 +79,6 @@ const HomePage = () => {
       <h1>Todo App</h1>
 
       <div>
-        <button
-          type="button"
-          className="btn btn-primary m-3 "
-          data-toggle="modal"
-          data-target="#exampleModal"
-        >
-          Add A New Todo
-        </button>
-
         <div
           className="modal fade"
           id="exampleModal"
@@ -159,74 +154,50 @@ const HomePage = () => {
       </div>
 
       {token ? (
-        <div className="row">
-          {usersTodos.length < 0 ? (
-            <div>
-              <p>LOADING</p>
-            </div>
-          ) : (
-            <div>
-              {usersTodos
-                .slice(0)
-                .reverse()
-                .map((todo, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="shadow border border-primary m-3 rounded p-2"
-                    >
-                      <Link
-                        to={`/todoApp/${todo._id}`}
-                        className="text-decoration-none text-light"
-                      >
-                        <div>
-                          <strong>{todo.title}</strong>
-                          <p>{todo.content}</p>
-                          <p className="pt-2">
-                            <small>{todo.updatedAt.slice(0, 10)}</small>
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
-                  );
-                })}
-            </div>
-          )}
+        <div>
+          <button
+            // type="button"
+            className="btn btn-outline-primary my-4"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >
+            Add A New Todo
+          </button>
+          <div className="row">
+            {usersTodos.length < 0 ? (
+              <div>
+                <p>LOADING</p>
+              </div>
+            ) : (
+              <div className="todos">
+                {usersTodos
+                  .slice(0)
+                  .reverse()
+                  .map((todo, index) => {
+                    return (
+                      <div key={index} className="todo">
+                        <Link
+                          to={`/todoApp/${todo._id}`}
+                          className="text-decoration-none text-light"
+                        >
+                          <div>
+                            <h2>{todo.title}</h2>
+                            <p>{todo.content}</p>
+                            <p className="date">
+                              <small>{todo.updatedAt.slice(0, 10)}</small>
+                            </p>
+                          </div>
+                        </Link>
+                      </div>
+                    );
+                  })}
+              </div>
+            )}
+          </div>
         </div>
       ) : (
-        <div className="row">
-          {allTodos.length < 0 ? (
-            <div>
-              <p>LOADING</p>
-            </div>
-          ) : (
-            <div>
-              {allTodos
-                .slice(0)
-                .reverse()
-                .map((todo, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="shadow border border-primary m-3 rounded p-2"
-                    >
-                      <Link
-                        to={`/todoApp/${todo._id}`}
-                        className="text-decoration-none text-light"
-                      >
-                        <div>
-                          <strong>{todo.title}</strong>
-                          <p>{todo.content}</p>
-                          <p className="pt-2">
-                            <small>{todo.updatedAt.slice(0, 10)}</small>
-                          </p>
-                        </div>
-                      </Link>
-                    </div>
-                  );
-                })}
-            </div>
-          )}
+        <div>
+          <h3>Sign up or login to view your todos</h3>
         </div>
       )}
     </div>

@@ -1,5 +1,4 @@
 import React from "react";
-import "./App.css";
 import { Route, Switch } from "react-router";
 import HomePage from "./pages/HomePage";
 import TodoDetailsPage from "./pages/TodoDetailsPage";
@@ -7,7 +6,8 @@ import TodoUpdatePage from "./pages/TodoUpdatePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import Navbar from "./components/Navbar";
-
+import "./App.css";
+import PaginationTodos from "./pages/PaginationTodos";
 function App() {
   return (
     <div>
@@ -30,9 +30,13 @@ function App() {
             <Route path="/login">
               <LoginPage />
             </Route>
+            {/* PAGINATED TODOS  */}
 
             <Route path="/">
               <HomePage />
+
+              {/*----------------- PAGINATED TODOS ------------------------- */}
+              {/* <PaginationTodos /> */}
             </Route>
           </Switch>
         </div>
